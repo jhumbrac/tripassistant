@@ -11,6 +11,9 @@ body {
 input, label {
     display:block;
 }
+label{
+	margin-bottom:2em;
+}
 
 
 .clearfix:after {
