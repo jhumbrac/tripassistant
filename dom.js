@@ -1,3 +1,5 @@
+$(document).ready(function(){
+
 // landing page dom
 var welcomePage = $('<div>').attr('id', 'welcomePage');
 var welcomeText = $('<h1>').text('Plan your trip');
@@ -44,5 +46,9 @@ closeBtn.on('click', event=>{
 })
 tripBtn.on('click', event=>{
     event.preventDefault();
-    console.log('trip btn click');
+    $('body').toggleClass('newTripModal'); // remove later
 })
+
+
+
+});
