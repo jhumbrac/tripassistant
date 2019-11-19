@@ -1,3 +1,6 @@
+//
+$(document).ready(function(){
+
 //localStorage.clear()
 
 var tDates = [], tID;   //variables to pass values to object
@@ -7,18 +10,19 @@ var tripsArr = [];      //object for local storage
 function getDatesArray(event){
 
     //Extract date elements from Start Date
-    var startDate = new Date($('#dStart').val());
-    var startDay = startDate.getDate();
-    var startMonth = startDate.getMonth() + 1;
+    var startDate = new Date($("#tripStartDate").val());
+    var startDay = startDate.getDate() + 1;
+    var startMonth = startDate.getMonth();
     var startYear = startDate.getFullYear();
     
     //Extract date elements from End Date
-    var endDate = new Date($('#dEnd').val());
-    var endDay = endDate.getDate();
-    var endMonth = endDate.getMonth() + 1;
+    var endDate = new Date($("#tripEndDate").val());
+    var endDay = endDate.getDate() + 1;
+    var endMonth = endDate.getMonth();
     var endYear = endDate.getFullYear();
     
     //Call function that will create array of dates
+    tDates = [];
     var dates = getDates(new Date(startYear,startMonth,startDay), new Date(endYear,endMonth,endDay));                                                                                                           
     dates.forEach(function(date) {
     //Add individual dates to dates array
@@ -44,18 +48,16 @@ var getDates = function(startDate, endDate) {
 
 //function to store tripID
 function getTripID(event) {
-    var startDate = new Date($('#dStart').val());
-    var startDay = startDate.getDate();
-    var startMonth = startDate.getMonth() + 1;
-    var startYear = startDate.getFullYear();
-        tID = $("#city").val() + "-" + startYear + startMonth + startDay;//this line creates the tripID
+    var startDate = $("#tripStartDate").val();
+        tID = $("#tripLocation").val() + "-" + startDate;//this line creates the tripID
 }
 
 //on click event to create a new trip object
-$("#newbtn").on("click", function(event) {
+$("#tripBtn").on("click", function(event) {
     event.preventDefault();
     getTripID(event);
     getDatesArray(event);
+    var tripsArr = [];
     tripsArr = localStorage.getItem("trips");
     tripsArr = tripsArr ? JSON.parse(tripsArr) : [];
     var trip = {
@@ -66,11 +68,13 @@ $("#newbtn").on("click", function(event) {
     localStorage.setItem("trips", JSON.stringify(tripsArr));
 })
 
+});
+
+
+
+//Itinerary Functions-----------------------------------------------------
 /*
-    itinerary []
-                date:
-                activities: []
-*/
+
 
 var actArr = [];
 var userInputDay = "12/20/2019";
@@ -96,4 +100,4 @@ $("#actbtn").on("click", function(event) {
                 }
     actArr.push(actEntry);
     localStorage.setItem("itinerary", JSON.stringify(actArr));
-})
+})*/
