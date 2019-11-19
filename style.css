@@ -37,7 +37,8 @@ label{
 .closeBtn {
 	background:purple;
 	border-radius:50%;
-	color:#fff;
+    color:#fff;
+    cursor:pointer;
 	padding:1em;
 	position:absolute;
 	top:-1.5em;

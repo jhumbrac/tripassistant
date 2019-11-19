@@ -14,7 +14,7 @@ $('body').append(tripInput);
 tripInput.append(tripLocation, locationLabel, tripStartDate, tripStartLabel, tripEndDate, tripEndLabel, tripBtn, closeBtn);
 
 // google places api
-var googleApiKey = 'AIzaSyA-b6Ob-hdWMHrJO5fp-G5GCm76jeHqGRc';
+
 
 
 // landing page dom
