@@ -11,24 +11,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script>
-        // function hndlr(response) {
-        //     console.log(response);
-        // }
-        //http://maps.googleapis.com/maps/api/js?libraries=places&q=restaurants 
-        var searchKey = 'park';
-        var locationKey = 'Nashville';
-        $.ajax({
-            url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchKey}+in+${locationKey}&key=AIzaSyA-b6Ob-hdWMHrJO5fp-G5GCm76jeHqGRc`,
-            method: 'GET'
-        }).then(function(response){
-                console.log(response.results.name);
-                console.log('success?', response)
-            }).fail(function(){
-                console.log('error');
-            })
-    </script>
     <script src="dom.js"></script>
+    <script src="localStorageFunctions.js"></script>
     <script src="weather.js"></script>
 
 </body>
