@@ -15,17 +15,18 @@ $(document).ready(function(){
 //my location API link goes here. Need to make sure that the information is delivered in correct unit. 
       $.ajax({
 
-        url:"http://weatherbit-v1-mashape.p.rapidapi.com" /* RapidAPI */+ tripLocation + "f32ce10fcdmshf3587c309489b02p1c2f4ejsn5886632c5b19"//my Rapid API Key
+        url:"http://weatherbit-v1-mashape.p.rapidapi.com" /* RapidAPI */+ tripLocation + "f32ce10fcdmshf3587c309489b02p1c2f4ejsn5886632c5b19",//my Rapid API Key
         type:"GET",
         dataType:"jsonp",
-        success: finction(data){
-            
+        success: function(data){
+          console.log(data)
         }
-        console.log(data)
+        
         //my location API link goes here. Need to make sure that the information is delivered in correct unit.
 
       });
     }else{
+      console.log('error');
       $("#error").html('Please enter destination here');
     }
 
