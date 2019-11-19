@@ -1,5 +1,4 @@
-//
-$(document).ready(function(){
+
 
 //localStorage.clear()
 
@@ -53,22 +52,23 @@ function getTripID(event) {
 }
 
 //on click event to create a new trip object
-$("#tripBtn").on("click", function(event) {
-    event.preventDefault();
-    getTripID(event);
-    getDatesArray(event);
-    var tripsArr = [];
-    tripsArr = localStorage.getItem("trips");
-    tripsArr = tripsArr ? JSON.parse(tripsArr) : [];
-    var trip = {
-                tripID : tID,
-                tripDates : tDates
-                }
-    tripsArr.push(trip);
-    localStorage.setItem("trips", JSON.stringify(tripsArr));
-})
+// $("#tripBtn").on("click", function(event) {
+//     event.preventDefault();
+//     getTripID(event);
+//     getDatesArray(event);
+//     var tripsArr = [];
+//     tripsArr = localStorage.getItem("trips");
+//     tripsArr = tripsArr ? JSON.parse(tripsArr) : [];
+//     var trip = {
+//                 tripID : tID,
+//                 tripDates : tDates
+//                 }
+//     tripsArr.push(trip);
+//     localStorage.setItem("trips", JSON.stringify(tripsArr));
+// })
 
-});
+// }
+
 
 
 
