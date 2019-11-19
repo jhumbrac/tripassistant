@@ -11,7 +11,7 @@
 //shops
 //amusements
 //natural
-//historical
+//historic
 //religion
 //architecture
 //cultural
@@ -33,8 +33,8 @@ $(document).ready(function () {
 
             var long = -86.7844;
             var lata = 36.1658;
-            var kindOf = "religion,natural";
-            var limitOf = "20";
+            var kindOf = "historic";
+            var limitOf = "40";
             var limitDistance = 2000;
 
             var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
