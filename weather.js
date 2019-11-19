@@ -1,6 +1,5 @@
 //
 $(document).ready(function(){
-
 //create weather button and on click run function. We need to create weather button in HTML.  
   $('#checkWeather').click(function(){
 
