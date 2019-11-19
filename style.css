@@ -14,8 +14,35 @@ input, label {
 label{
 	margin-bottom:2em;
 }
-
-
+#welcomePage {
+	position:absolute;
+	top:25%;left:50%;
+	transform:translate(-50%,-50%);
+	z-index:1;
+}
+#tripInput {
+	display:none;
+}
+.newTripModal #tripInput {
+	display:block;
+	background:#fff;
+	border: 2px solid;
+	padding: 2em;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	z-index:2;
+}
+.closeBtn {
+	background:purple;
+	border-radius:50%;
+	color:#fff;
+	padding:1em;
+	position:absolute;
+	top:-1.5em;
+	right:-1.5em;
+}
 .clearfix:after {
     content:'';
     clear:both;
