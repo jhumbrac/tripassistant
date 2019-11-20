@@ -1,5 +1,4 @@
-//
-$(document).ready(function(){
+
 
 //localStorage.clear()
 
@@ -26,7 +25,12 @@ function getDatesArray(event){
     var dates = getDates(new Date(startYear,startMonth,startDay), new Date(endYear,endMonth,endDay));                                                                                                           
     dates.forEach(function(date) {
     //Add individual dates to dates array
-    tDates.push(date); 
+    tDates.push(
+        {
+            id: date,
+            name: `${startMonth}/${startDay}`,
+            activities: [{ }]
+        });
     })
 };
 
@@ -49,55 +53,5 @@ var getDates = function(startDate, endDate) {
 //function to store tripID
 function getTripID(event) {
     var startDate = $("#tripStartDate").val();
-        tID = $("#tripLocation").val() + "-" + startDate;//this line creates the tripID
+    tID = $("#tripLocation").val() + "-" + startDate;//this line creates the tripID
 }
-
-//on click event to create a new trip object
-$("#tripBtn").on("click", function(event) {
-    event.preventDefault();
-    getTripID(event);
-    getDatesArray(event);
-    var tripsArr = [];
-    tripsArr = localStorage.getItem("trips");
-    tripsArr = tripsArr ? JSON.parse(tripsArr) : [];
-    var trip = {
-                tripID : tID,
-                tripDates : tDates
-                }
-    tripsArr.push(trip);
-    localStorage.setItem("trips", JSON.stringify(tripsArr));
-})
-
-});
-
-
-
-//Itinerary Functions-----------------------------------------------------
-/*
-
-
-var actArr = [];
-var userInputDay = "12/20/2019";
-var userInputAct = [];
-
-//function to retrieve user input activities to add
-function getUserActivities(event) {
-    var newToDo = ($('#tDo').val());
-    var newToEat = ($('#tEat').val());
-    userInputAct.push(newToDo);
-    userInputAct.push(newToEat);
-}
-
-//on click event to add activities to itinerary object
-$("#actbtn").on("click", function(event) {
-    event.preventDefault();
-    getUserActivities(event);
-    actArr = localStorage.getItem("activities");
-    actArr = actArr ? JSON.parse(actArr) : [];
-    var actEntry = {
-                tDay : userInputDay,
-                activities : userInputAct
-                }
-    actArr.push(actEntry);
-    localStorage.setItem("itinerary", JSON.stringify(actArr));
-})*/
