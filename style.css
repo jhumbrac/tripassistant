@@ -64,6 +64,15 @@ button:focus, input:focus {
 	max-width: 41em;
 	margin: 6em auto 0;
 }
+.tripPageModal #welcomePage {
+    display: none;
+}
+#tripPage {
+    display: none;
+}
+.tripPageModal #tripPage {
+    display: block;
+}
 #upcomingTripsDisplay {
     position: absolute;
     bottom: 2em;

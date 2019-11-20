@@ -35,6 +35,28 @@ tripInput.append((tripInputDiv2.append(tripStartDate, formLine.clone(), tripStar
 tripInput.append((tripInputDiv3.append(tripEndDate, formLine.clone(), tripEndLabel)));
 tripInput.append(tripBtn, closeBtn);
 
+//Trip Page
+var tripPage = $('<div>').attr('id', 'tripPage');
+var backBtn = $('<button>').attr('class', 'backBtn').text('<- Back');
+tripPage.append(backBtn);
+function createTripPage() {
+    var trips = JSON.parse(localStorage.trips);
+    $('body').prepend(tripPage);
+
+    datesActivities = trips.data[0].tripDates;
+    $('body').attr('class', 'tripPageModal');
+    datesActivities.forEach(item=>{
+        var activitiesDiv = $('<div>');
+        item.activities.push({'bars':"red door"});
+        tripPage.append(activitiesDiv);
+        activitiesDiv.append(`<h2>${item.id}</h2>`);
+        item.activities.forEach(activitiyItem=>{
+            activitiesDiv.append($('<p>').text(activitiyItem.bars));
+        })
+    })
+    localStorage.setItem('trips', JSON.stringify(trips));
+}
+
 function populateUpcomingTripsDisplay (){ 
     $(upcomingTripsDisplay).html('');
     upcomingTripsDisplay.append(upcomingTripsHeader);
@@ -47,7 +69,10 @@ function populateUpcomingTripsDisplay (){
     }
 }
 populateUpcomingTripsDisplay();
-
+backBtn.on('click', event=>{
+    event.preventDefault();
+    $('body').attr('class', '');
+})
 newTripBtn.on('click', event=>{
     event.preventDefault();
     $('body').toggleClass('newTripModal');
@@ -55,11 +80,6 @@ newTripBtn.on('click', event=>{
 closeBtn.on('click', event=>{
     $('body').toggleClass('newTripModal');
 })
-// tripBtn.on('click', event=>{
-//     event.preventDefault();
-//     //populateUpcomingTripsDisplay();
-//     $('body').toggleClass('newTripModal'); // remove later
-// })
 $("#tripBtn").on("click", function(event) {
     event.preventDefault();
     getTripID(event);
@@ -79,6 +99,7 @@ $("#tripBtn").on("click", function(event) {
     localStorage.setItem("trips", JSON.stringify(data));
     $('body').toggleClass('newTripModal');
     populateUpcomingTripsDisplay();
+    createTripPage();
 })
 
 

@@ -29,7 +29,7 @@ function getDatesArray(event){
         {
             id: date,
             name: `${startMonth}/${startDay}`,
-            activities: [{ }]
+            activities: []
         });
     })
 };
