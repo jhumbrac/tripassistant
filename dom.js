@@ -41,7 +41,7 @@ function populateUpcomingTripsDisplay (){
     upcomingTripsDisplay.append(upcomingTripsHeader);
     if (localStorage.trips){
         JSON.parse(localStorage.trips).forEach(item => {
-            $(upcomingTripsDisplay).append( $('<p>').text(item.tripID))
+            $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripID))
         });
     } else {
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))

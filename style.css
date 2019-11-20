@@ -64,7 +64,17 @@ button:focus, input:focus {
 	margin: 6em auto 0;
 }
 #upcomingTripsDisplay {
-    margin-top: 10em;
+    position: absolute;
+    bottom: 2em;
+    left: 2em;
+    right: 2em;
+}
+#upcomingTripsDisplay p {
+	font-size: 1.5em;
+	background: #1f2833;
+	cursor: pointer;
+	margin-top: .5em;
+	padding: .5em;
 }
 .newTripModal #welcomePage {
 	opacity: .3;
