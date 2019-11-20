@@ -47,6 +47,12 @@ button {
 button:focus, input:focus {
     outline:none;
 }
+[type=date] {
+	color: #c5c6c700;
+}
+[type=date]:focus, [type=date]:valid {
+	color: #c5c6c7;
+}
 #newTripBtn {
     background: none;
     border: .25em solid;
@@ -88,11 +94,11 @@ button:focus, input:focus {
     bottom: 0;
     left: 0;
     z-index: -1;
-    stroke: #fff;
+    stroke: #c5c6c7;
     fill: none;
     pointer-events: none;
     transform: translate3d(0, 0, 0);
-    transition: transform 0.7s, stroke 0.7s;
+    transition: transform 0.75s, stroke 0.75s;
     -webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
     transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
 }
