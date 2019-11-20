@@ -27,7 +27,8 @@ function getDatesArray(event){
     //Add individual dates to dates array
     tDates.push(
         {
-        name: date,
+        id: date,
+        name: `${startMonth}/${startDay}`,
         activities: { }
         });
     })
