@@ -36,12 +36,14 @@ tripInput.append((tripInputDiv2.append(tripStartDate, formLine.clone(), tripStar
 tripInput.append((tripInputDiv3.append(tripEndDate, formLine.clone(), tripEndLabel)));
 tripInput.append(tripBtn, closeBtn);
 
+var workingArray = [];
 function populateUpcomingTripsDisplay (){ 
     $(upcomingTripsDisplay).html('');
     upcomingTripsDisplay.append(upcomingTripsHeader);
     if (localStorage.trips){
         JSON.parse(localStorage.trips).forEach(item => {
-            $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripID))
+            $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripID));
+            workingArray.push(item); // why isn't this working?
         });
     } else {
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))
