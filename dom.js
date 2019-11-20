@@ -38,22 +38,28 @@ tripInput.append(tripBtn, closeBtn);
 //Trip Page
 var tripPage = $('<div>').attr('id', 'tripPage');
 var backBtn = $('<button>').attr('class', 'backBtn').text('<- Back');
-tripPage.append(backBtn);
-function createTripPage() {
+var searchActivitiesBtn = $('<button>').attr('class', 'searchActivitiesBtn').text('+');
+function createTripPage(tripId) {
     var trips = JSON.parse(localStorage.trips);
     $('body').prepend(tripPage);
-
-    datesActivities = trips.data[0].tripDates;
     $('body').attr('class', 'tripPageModal');
+    tripPage.html('');
+    tripPage.append(backBtn);
+    tripPage.append($('<h2>').text(trips.data[tripId].tripID));
+    
+    datesActivities = trips.data[tripId].tripDates;
     datesActivities.forEach(item=>{
         var activitiesDiv = $('<div>');
+        
         item.activities.push({'bars':"red door"});
         tripPage.append(activitiesDiv);
-        activitiesDiv.append(`<h2>${item.id}</h2>`);
+        activitiesDiv.append(`<h3>${item.id}</h3>`);
         item.activities.forEach(activitiyItem=>{
             activitiesDiv.append($('<p>').text(activitiyItem.bars));
-        })
+        });
+        tripPage.append(searchActivitiesBtn.clone());
     })
+    
     localStorage.setItem('trips', JSON.stringify(trips));
 }
 
@@ -69,7 +75,7 @@ function populateUpcomingTripsDisplay (){
     }
 }
 populateUpcomingTripsDisplay();
-backBtn.on('click', event=>{
+$(document).on('click', '.backBtn', event=>{
     event.preventDefault();
     $('body').attr('class', '');
 })
@@ -99,8 +105,18 @@ $("#tripBtn").on("click", function(event) {
     localStorage.setItem("trips", JSON.stringify(data));
     $('body').toggleClass('newTripModal');
     populateUpcomingTripsDisplay();
-    createTripPage();
 })
+
+$(upcomingTripsDisplay).on('click', event=>{
+    var tripListArray = JSON.parse(localStorage.trips).data;
+    var tripListId =  tripListArray.findIndex( x => x.tripID === event.target.id );
+    createTripPage(tripListId);
+})
+$(document).on('click', '.searchActivitiesBtn', function(event) {
+    event.preventDefault();
+    console.log($(this));
+})
+
 
 
 });
