@@ -1,7 +1,4 @@
 
-// John, this code below has where if we type on a name of a place it will pull the longitude and latitude. 
-
-
 //Kinds of places you can search for 
 //
 //restaurants
@@ -16,85 +13,125 @@
 //architecture
 //cultural
 
-var listItems = ["tourism ", "cafe ", "bars ", "adult ", "shops ", "amusements ", "natural ", "historic ", "religion ", "architecture ", "cultural "];
 
-
-for (var j = 0; j < listItems.length; j++) {
-
-    //button has an style:inline 
-    $('.listResults').append('<div class="result'+ j + '"> ' + '<h3 style="display: inline;" id="c3p' + j + '">' + listItems[j] + '</h3>' + '<button class="'+ j + "b" + '">+</button>' + '</div><br>');
-}
+$(document).ready(function () {
 
 
 
+    var listItems = ["tourism", "cafe", "bars", "adult", "shops", "amusements", "natural", "historic", "religion", "architecture", "cultural"];
 
-$("button").click(function () {
-    console.log("Stop pressuring me")
-    console.log(this.className);
+    var selectedItems = [];
 
-    if (this.className) {
-        console.log("deep web");
-        var keyName = this.className;
-        var valueInput = $(this).prev().html();
-        localStorage.setItem(keyName, valueInput);
+    function createAForm() {
+
+
+        $('#form2Location').append('<form id ="formLocation" action="' + selectedItems + '">');
+
+        for (var k = 0; k < listItems.length; k++) {
+
+        $('#formLocation').prepend('<input class="test' + k + '" type="checkbox" name="chkBox' + k + '"><label>' + listItems[k] + '</label><br>');
+
+        }
+        $('#form2Location').append('</form>');
+
+
+        $("input").click(function () {
+
+            if (this) {
+                console.log(this.className + " Clicked");
+                var valueInput = $(this).next().html();
+                console.log(selectedItems);
+                if (!selectedItems.includes(valueInput)) {
+                    selectedItems.push(valueInput);
+                    console.log("you made it inside");
+                }
+            }
+
+        });
+
     }
-    
+    createAForm();
+
+    $('#populateList').click(function () {
+
+        // var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=Nashville&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+        // $.ajax({
+        //     url: queryURL,
+        //     method: "GET"
+        // }).then(function (response) {
+
+        // // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
+        // console.log(response);
+
+
+        var long = -86.7844;
+        var lata = 36.1658;
+        var kindOf = selectedItems.toString();
+        var limitOf = "40";
+        var limitDistance = 2000;
+
+        console.log(kindOf);
+
+        var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+
+        $.ajax({
+            url: locationURL,
+            method: "GET"
+        }).then(function (locationResponse) {
+            console.log(locationResponse);
+            console.log(locationResponse.features.length);
+
+            for (var i = 0; i < locationResponse.features.length; i++) {
+                if (locationResponse.features[i].properties.name !== "") {
+                    console.log("you made it")
+                    $('.h3').append('<div class="result' + i + '"> ' + '<h3 style="display: inline;" id="c3p' + i + '">' + '<button class="' + "b" + i + '">' + locationResponse.features[i].properties.name + '</button></h3></div><br>');
+                }
+            }
+            $("button").click(function () {
+
+                if (this.className) {
+                    console.log(this.className + " Clicked");
+                    var keyName = this.className;
+                    var valueInput = $(this).html();
+                    localStorage.setItem(keyName, valueInput);
+
+                }
+
+            });
+        })
+
+
+
+
+
+    });
 });
 
-//lastChild.previousSibling.innerhtml
+
+// this is going to store the selected activities the consumer wants to do
 
 
 
 
 
 
-// $(document).ready(function () {
-
-//     $('#populateList').click(function () {
-
-//         // var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=Nashville&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
-//         // $.ajax({
-//         //     url: queryURL,
-//         //     method: "GET"
-//         // }).then(function (response) {
-
-//             // // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
-//             // console.log(response);
-
-
-//             var long = -86.7844;
-//             var lata = 36.1658;
-//             var kindOf = "historic";
-//             var limitOf = "40";
-//             var limitDistance = 2000;
-
-//             var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
-
-//             $.ajax({
-//                 url: locationURL,
-//                 method: "GET"
-//             }).then(function (locationResponse) {
-//                 console.log(locationResponse);
-//                 console.log(locationResponse.features.length);
+                     // This below is just saved stuff to ref or store
 
 
 
-
-//                 for (var i = 0; i < locationResponse.features.length; i++){
-//                     if (locationResponse.features[i].properties.name !== ""){
-//                         $('h3').append(locationResponse.features[i].properties.name + "<br><br>")
-//                     }
-
-//                 }
-
-//             })
+//http://api.opentripmap.com/0.1/en/places/xid/Q372040?apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22
 
 
+/// this is just in case we want to not have the results printed as a button but as a string with a button next to it.
 
+// $("button").click(function () {
 
+//     if (this.className) {
+//         console.log(this.className + " Clicked");
+//         var keyName = this.className;
+//         var valueInput = $(this).prev().html();
+//         localStorage.setItem(keyName, valueInput);
 
-//     });
+//     }
+
 // });
-
-
-        //http://api.opentripmap.com/0.1/en/places/xid/Q372040?apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22
