@@ -32,6 +32,16 @@
 </head>
 <body>
 
+<form id="checkBox">
+    <input type="checkbox" name="bars" value="option1" id="option1">
+    <input type="checkbox" name="rest" value="option2" id="option2">
+    <input type="checkbox" name="park" value="option3" id="option3">
+    <input type="checkbox" name="adult" value="option4" id="option4">
+    <input type="checkbox" name="food" value="option5" id="option5">
+    <input type="submit" id="checkboxSubmit">
+</form>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="localStorageFunctions.js"></script>
@@ -47,6 +57,18 @@
 
         $('body').append(tripInput);
         tripInput.append(tripLocation, locationLabel, tripStartDate, tripStartLabel, tripEndDate, tripEndLabel, tripBtn);
+        var elements = [];
+        $('#checkboxSubmit').on('click', event=>{
+            event.preventDefault();
+            
+            $('#checkbox input[type=checkbox]:checked').each(function(){
+                elements.push(this.value);
+                return elements;
+            });
+            
+            console.log(elements);
+        })
+        
     </script>
 </body>
 </html>

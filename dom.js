@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 // landing page dom
 var welcomePage = $('<div>').attr('id', 'welcomePage');
 var welcomeText = $('<h1>').text('Plan your trip');
@@ -13,7 +12,7 @@ welcomePage.append(welcomeText, welcomeSubText, newTripBtn, upcomingTripsDisplay
 
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
-var formLine = $(`<svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+var formLine = $(`<svg class="graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
 <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
 </svg>`);
 
@@ -36,14 +35,12 @@ tripInput.append((tripInputDiv2.append(tripStartDate, formLine.clone(), tripStar
 tripInput.append((tripInputDiv3.append(tripEndDate, formLine.clone(), tripEndLabel)));
 tripInput.append(tripBtn, closeBtn);
 
-var workingArray = [];
 function populateUpcomingTripsDisplay (){ 
     $(upcomingTripsDisplay).html('');
     upcomingTripsDisplay.append(upcomingTripsHeader);
     if (localStorage.trips){
-        JSON.parse(localStorage.trips).forEach(item => {
+        JSON.parse(localStorage.trips).data.forEach(item => {
             $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripID));
-            workingArray.push(item); // why isn't this working?
         });
     } else {
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))
@@ -68,14 +65,18 @@ $("#tripBtn").on("click", function(event) {
     getTripID(event);
     getDatesArray(event);
     var tripsArr = [];
-    tripsArr = localStorage.getItem("trips");
-    tripsArr = tripsArr ? JSON.parse(tripsArr) : [];
+    if (localStorage.trips) {
+        tripsArr = JSON.parse(localStorage.trips).data;
+    }
     var trip = {
                 tripID : tID,
                 tripDates : tDates
                 }
     tripsArr.push(trip);
-    localStorage.setItem("trips", JSON.stringify(tripsArr));
+    var data  = {
+        data: tripsArr
+    };
+    localStorage.setItem("trips", JSON.stringify(data));
     $('body').toggleClass('newTripModal');
     populateUpcomingTripsDisplay();
 })
