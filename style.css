@@ -27,7 +27,7 @@ input, label, button {
 input {
     background: transparent;
     border: none;
-    padding: 1.25em 0 .75em;
+    padding: 1em 0 .5em;
     width:100%;
 }
 label{
@@ -41,8 +41,8 @@ button {
     border: none;
     color: #0b0c10;
     cursor:pointer;
-    font-size: 1.25em;
-    padding: 1em 2em;
+    font-size: 1em;
+    padding: .75em 2em;
 }
 button:focus, input:focus {
     outline:none;
@@ -57,7 +57,8 @@ button:focus, input:focus {
     background: none;
     border: .25em solid;
     color: #66fcf1;
-    margin: 4em auto 0;
+    font-size: 1.5em;
+    margin: 3em auto 0;
 }
 #welcomePage {
 	max-width: 41em;
@@ -82,19 +83,20 @@ button:focus, input:focus {
 #tripInput {
     display:none;
     background: #1f2833;
-    border: 2px solid;
+    border: 2px solid #66fcf1;
+    font-size: 2em;
     padding: 2em;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     z-index:2;
-    width: 45%;
+    width: 85%;
 }
 #tripInput > div {
     position:relative;
     overflow: hidden;
-    margin-bottom: 2em;
+    margin-bottom: .5em;
 }
 .newTripModal #tripInput {
 	display:block;
@@ -123,17 +125,17 @@ input:valid ~ label {
 	color: #66fcf1;
 	transform: translateY(0);
 	top: 0;
-	font-size: .75em;
+	font-size: .5em;
 }
 .closeBtn {
 	background: #66fcf1;
 	border-radius:50%;
 	cursor:pointer;
 	position:absolute;
-	top:-1.5em;
-	right:-1.5em;
-	height: 3em;
-	width: 3em;
+	top: -1em;
+	right: -1em;
+	height: 2em;
+	width: 2em;
 }
 .closeBtn span {
 	color: #45a29e;
