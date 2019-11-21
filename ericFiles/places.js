@@ -66,20 +66,19 @@ $(document).ready(function () {
 
     $('#populateList').click(function () {
 
-        var newLocation = "place name of location here"
 
-        var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=" + newLocation + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
+        // var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=" + newLocation + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+        // $.ajax({
+        //     url: queryURL,
+        //     method: "GET"
+        // }).then(function (response) {
 
-        // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
-        console.log(response);
+        // // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
+        // console.log(response);
 
 
-        var long = response.lon;
-        var lata = response.lat;
+        var long = -86.78444;
+        var lata = 36.16589;
         var kindOf = selectedItems.toString();
         var limitOf = "40";
         var limitDistance = 2000;
