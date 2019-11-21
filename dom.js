@@ -1,5 +1,6 @@
 $(document).ready(function(){
 // landing page dom
+var logo = $('<img>').attr('src', 'optimisedLogo.svg').attr('class', 'logo');
 var welcomePage = $('<div>').attr('id', 'welcomePage');
 var welcomeText = $('<h1>').text('Plan your trip');
 var welcomeSubText = $('<p>').text('Click to start a new trip or select from one of your upcoming trips');
@@ -7,12 +8,12 @@ var newTripBtn = $('<button>').attr('id', 'newTripBtn').text('Create a new itine
 var upcomingTripsBtn = $('<button>').attr('id', 'upcomingTripsBtn').text('See upcoming trips');
 var upcomingTripsDisplay = $('<div>').attr('id', 'upcomingTripsDisplay');
 var upcomingTripsHeader = $('<h2>').attr('id', 'upcomingTripsHeader').text('Upcoming Trips');
-
+$('body').prepend(logo);
 $('body').prepend(welcomePage);
 welcomePage.append(welcomeText, welcomeSubText, newTripBtn, upcomingTripsBtn);
 
 $('body').prepend(upcomingTripsDisplay);
-
+$('body').prepend(logo);
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
 var formLine = $(`<svg class="graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -94,6 +95,7 @@ function getLataLong() {
         // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
         lata = response.lat;
         long = response.lon;
+        console.log('working location');
     });
 }
     
@@ -125,6 +127,7 @@ $("#tripBtn").on("click", function(event) {
                 lat : lata,
                 lon : long
                 };
+    console.log(trip);
     tripsArr.push(trip);
     var data  = {
         data: tripsArr

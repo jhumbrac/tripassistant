@@ -68,6 +68,7 @@
         }).then(function (locationResponse) {
             var activitiesSearchResultsPanel = $('<div>').attr('id', 'activitiesSearchResultsPanel');
             $('body').append(activitiesSearchResultsPanel);
+            console.log(locationResponse);
             for (var i = 0; i < locationResponse.features.length; i++) {
                 if (locationResponse.features[i].properties.name !== "") {
                     var activitiesSearchResult = $('<p>').attr('class', 'activitiesSearchResult').text(locationResponse.features[i].properties.name);
