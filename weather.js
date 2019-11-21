@@ -25,13 +25,15 @@ if (tripLocation !== "") {
       console.log(response.list[i]); //returns 7 days of info
       //console.log('high: ', response.list[i].temp.max );//high temp kelvin
       //console.log('low: ', response.list[i].temp.min );//low temp kelvin
-      console.log("weather: ", response.list[i].weather[0].description;
+      console.log("weather: ", response.list[i].weather[0].description);
       var iconCode = response.list[i].weather[0].icon;
       var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
       var hiTemp = parseInt((response.list[i].temp.max - 273.15) * 1.8 + 32); //convert from Kelvin to Fahrenheit
-      console.log("hi", hiTemp);
+      //console.log("hi", hiTemp);
       var loTemp = parseInt((response.list[i].temp.min - 273.15) * 1.8 + 32); //convert from Kelvin to Fahrenheit
-      console.log("lo", loTemp);
+      //console.log("lo", loTemp);
+
+      //To send info to body as sorted
       var temp = $("<div>");
       $("body").append(temp);
       temp.append("<h2> max:" + hiTemp + "</h2>");
