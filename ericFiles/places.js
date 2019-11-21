@@ -21,6 +21,7 @@ $(document).ready(function () {
     var listItems = ["tourism", "cafe", "bars", "adult", "shops", "amusements", "natural", "historic", "religion", "architecture", "cultural"];
 
     var selectedItems = [];
+    var valueInput;
 
     function createAForm() {
 
@@ -29,7 +30,7 @@ $(document).ready(function () {
 
         for (var k = 0; k < listItems.length; k++) {
 
-        $('#formLocation').prepend('<input class="test' + k + '" type="checkbox" name="chkBox' + k + '"><label>' + listItems[k] + '</label><br>');
+            $('#formLocation').prepend('<input class="test' + k + '" type="checkbox" name="chkBox' + k + '"><label>' + listItems[k] + '</label><br>');
 
         }
         $('#form2Location').append('</form>');
@@ -38,34 +39,47 @@ $(document).ready(function () {
         $("input").click(function () {
 
             if (this) {
-                console.log(this.className + " Clicked");
-                var valueInput = $(this).next().html();
-                console.log(selectedItems);
+                console.log($(this).next().html());
+                valueInput = $(this).next().html();
                 if (!selectedItems.includes(valueInput)) {
+                    console.log(selectedItems);
                     selectedItems.push(valueInput);
-                    console.log("you made it inside");
+                    //   console.log("you made it inside");
+                } else {
+                   
+                    this.remove($(this).next().html().index(), selectedItem);
+                    console.log("removed");
+                    console.log(selectedItems);
                 }
             }
 
         });
+        // $( "input" ).dblclick(function() {
+        //     if (!selectedItems.includes(valueInput)) {
+        //         $($(this).next()).append('<button class="buttonDelete"> Delete?</button>');
+        //        // selectedItems.remove($(this).html());
+        //         console.log("hello");
+        //   }});
 
     }
     createAForm();
 
     $('#populateList').click(function () {
 
-        // var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=Nashville&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
-        // $.ajax({
-        //     url: queryURL,
-        //     method: "GET"
-        // }).then(function (response) {
+        var newLocation = "place name of location here"
 
-        // // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
-        // console.log(response);
+        var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=" + newLocation + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+        // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
+        console.log(response);
 
 
-        var long = -86.7844;
-        var lata = 36.1658;
+        var long = response.lon;
+        var lata = response.lat;
         var kindOf = selectedItems.toString();
         var limitOf = "40";
         var limitDistance = 2000;
