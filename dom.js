@@ -4,11 +4,14 @@ var welcomePage = $('<div>').attr('id', 'welcomePage');
 var welcomeText = $('<h1>').text('Plan your trip');
 var welcomeSubText = $('<p>').text('Click to start a new trip or select from one of your upcoming trips');
 var newTripBtn = $('<button>').attr('id', 'newTripBtn').text('Create a new itinerary');
+var upcomingTripsBtn = $('<button>').attr('id', 'upcomingTripsBtn').text('See upcoming trips');
 var upcomingTripsDisplay = $('<div>').attr('id', 'upcomingTripsDisplay');
 var upcomingTripsHeader = $('<h2>').attr('id', 'upcomingTripsHeader').text('Upcoming Trips');
 
 $('body').prepend(welcomePage);
-welcomePage.append(welcomeText, welcomeSubText, newTripBtn, upcomingTripsDisplay);
+welcomePage.append(welcomeText, welcomeSubText, newTripBtn, upcomingTripsBtn);
+
+$('body').prepend(upcomingTripsDisplay);
 
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
@@ -28,6 +31,9 @@ var tripStartLabel = $('<label>').attr('for', 'tripStartDate').text('Trip Start'
 var tripEndDate = $('<input>').attr('type', 'date').attr('id', 'tripEndDate').attr('required', 'true');
 var tripEndLabel = $('<label>').attr('for', 'tripEndDate').text('Trip End');
 var tripBtn = $('<button>').attr('id', 'tripBtn').text('Plan Trip!');
+var tripLocationValue;
+var lata;
+var long;
 
 $('body').append(tripInput);
 tripInput.append((tripInputDiv1.append(tripLocation, formLine.clone(), locationLabel)));
@@ -37,34 +43,37 @@ tripInput.append(tripBtn, closeBtn);
 
 //Trip Page
 var tripPage = $('<div>').attr('id', 'tripPage');
-var backBtn = $('<button>').attr('class', 'backBtn').text('<- Back');
+var backBtn = $('<button>').attr('class', 'backBtn').html('&larr; Back');
 var searchActivitiesBtn = $('<button>').attr('class', 'searchActivitiesBtn').text('+');
+
 function createTripPage(tripId) {
     var trips = JSON.parse(localStorage.trips);
     $('body').prepend(tripPage);
     $('body').attr('class', 'tripPageModal');
     tripPage.html('');
     tripPage.append(backBtn);
-    tripPage.append($('<h2>').text(trips.data[tripId].tripID));
+    tripPage.append($('<h2>').text(trips.data[tripId].tripName));
     
     datesActivities = trips.data[tripId].tripDates;
     datesActivities.forEach(item=>{
         var activitiesDiv = $('<div>');
         
-        item.activities.push({'bars':"red door"});
+        // item.activities.push({'bars':"red door"});
         tripPage.append(activitiesDiv);
         activitiesDiv.append(`<h3>${item.id}</h3>`);
         item.activities.forEach(activitiyItem=>{
             activitiesDiv.append($('<p>').text(activitiyItem.bars));
         });
-        tripPage.append(searchActivitiesBtn.clone());
+        activitiesDiv.append(searchActivitiesBtn.clone());
     })
     
     localStorage.setItem('trips', JSON.stringify(trips));
 }
 
-function populateUpcomingTripsDisplay (){ 
+function populateUpcomingTripsDisplay (){
+    $('body').attr('class', 'upcomingTripsModal');
     $(upcomingTripsDisplay).html('');
+    upcomingTripsDisplay.append(backBtn);
     upcomingTripsDisplay.append(upcomingTripsHeader);
     if (localStorage.trips){
         JSON.parse(localStorage.trips).data.forEach(item => {
@@ -74,7 +83,21 @@ function populateUpcomingTripsDisplay (){
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))
     }
 }
-populateUpcomingTripsDisplay();
+function getLataLong() {
+    tripLocationValue = tripLocation.val();
+
+    var queryURL = `https://api.opentripmap.com/0.1/en/places/geoname?name=${tripLocationValue}&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22`;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
+        lata = response.lat;
+        long = response.lon;
+    });
+}
+    
+//button functions
 $(document).on('click', '.backBtn', event=>{
     event.preventDefault();
     $('body').attr('class', '');
@@ -88,6 +111,7 @@ closeBtn.on('click', event=>{
 })
 $("#tripBtn").on("click", function(event) {
     event.preventDefault();
+    getLataLong();
     getTripID(event);
     getDatesArray(event);
     var tripsArr = [];
@@ -96,8 +120,11 @@ $("#tripBtn").on("click", function(event) {
     }
     var trip = {
                 tripID : tID,
-                tripDates : tDates
-                }
+                tripDates : tDates,
+                tripName : tripLocationValue,
+                lat : lata,
+                lon : long
+                };
     tripsArr.push(trip);
     var data  = {
         data: tripsArr
@@ -106,16 +133,19 @@ $("#tripBtn").on("click", function(event) {
     $('body').toggleClass('newTripModal');
     populateUpcomingTripsDisplay();
 })
-
-$(upcomingTripsDisplay).on('click', event=>{
+$(upcomingTripsDisplay).on('click', 'p', event=>{
     var tripListArray = JSON.parse(localStorage.trips).data;
     var tripListId =  tripListArray.findIndex( x => x.tripID === event.target.id );
     createTripPage(tripListId);
 })
 $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
-    console.log($(this));
+    createAForm();
 })
+$(document).on('click', '#upcomingTripsBtn', function(event) {
+    event.preventDefault();
+    populateUpcomingTripsDisplay();
+});
 
 
 

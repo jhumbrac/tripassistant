@@ -12,6 +12,7 @@ body {
 }
 h1,h2,h3,h4 {
 	font-weight:900;
+	text-transform:capitalize;
 }
 h1 {
 	color: #66fcf1;
@@ -24,13 +25,13 @@ input, label, button {
     display:block;
     font: inherit;
 }
-input {
+#tripInput input {
     background: transparent;
     border: none;
     padding: 1em 0 .5em;
     width:100%;
 }
-label{
+#tripInput label{
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -53,18 +54,30 @@ button:focus, input:focus {
 [type=date]:focus, [type=date]:valid {
 	color: #c5c6c7;
 }
-#newTripBtn {
+#newTripBtn, #upcomingTripsBtn {
     background: none;
     border: .25em solid;
     color: #66fcf1;
     font-size: 1.5em;
     margin: 3em auto 0;
+    max-width: 15em;
+    width: 100%;
+}
+.searchActivitiesBtn {
+    font-size: 2em;
+    padding: .5em 2em;
+    line-height: 0;
 }
 #welcomePage {
 	max-width: 41em;
-	margin: 6em auto 0;
+	/* margin: 6em auto 0; */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 100%;
 }
-.tripPageModal #welcomePage {
+.tripPageModal #welcomePage, .upcomingTripsModal #welcomePage {
     display: none;
 }
 #tripPage {
@@ -72,14 +85,27 @@ button:focus, input:focus {
 }
 .tripPageModal #tripPage {
     display: block;
+    padding: 4em 2em;
+}
+#tripPage > div {
+	margin-bottom: 3em;
+}
+#tripPage h2 {
+	color: #66fcf1;
+	font-size: 4em;
 }
 #upcomingTripsDisplay {
-    position: absolute;
-    bottom: 2em;
-    left: 2em;
-    right: 2em;
+	display:none;
 }
-#upcomingTripsDisplay p {
+.upcomingTripsModal #upcomingTripsDisplay {
+	display:block;
+    padding: 4em 2em;
+}
+#upcomingTripsHeader {
+	color: #66fcf1;
+	font-size: 4em;
+}
+#upcomingTripsDisplay p, #tripPage p {
 	font-size: 1.5em;
 	background: #1f2833;
 	cursor: pointer;
@@ -89,7 +115,7 @@ button:focus, input:focus {
 .newTripModal #welcomePage {
 	opacity: .3;
 }
-#tripInput {
+#tripInput, #activitiesCheckBoxForm, #activitiesSearchResultsPanel {
     display:none;
     background: #1f2833;
     border: 2px solid #66fcf1;
@@ -102,6 +128,19 @@ button:focus, input:focus {
     z-index:2;
     width: 85%;
 }
+#activitiesSearchResultsPanel {
+	max-height: calc(100vh - 4em);
+	overflow: auto;
+}
+/* #activitiesSearchResultsPanel {
+	top: 2em;
+	bottom: 2em;
+	left: 2em;
+	right: 2em;
+	width: initial;
+	transform: none;
+	overflow: scroll;
+} */
 #tripInput > div {
     position:relative;
     overflow: hidden;
@@ -109,6 +148,14 @@ button:focus, input:focus {
 }
 .newTripModal #tripInput {
 	display:block;
+}
+[type=checkbox] {
+    height: 1em;
+    width: 1em;
+}
+.activitiesCheckModal #activitiesCheckBoxForm, .activitiesSearchResultsModal #activitiesSearchResultsPanel {
+    display:block;
+    font-size:1em;
 }
 .graphic {
     position: absolute;
@@ -123,14 +170,14 @@ button:focus, input:focus {
     -webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
     transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
 }
-input:focus ~ .graphic,
-input:valid ~ .graphic {
+#tripInput input:focus ~ .graphic,
+#tripInput input:valid ~ .graphic {
     stroke:#66fcf1;
     -webkit-transform: translate3d(-66.6%, 0, 0);
     transform: translate3d(-66.6%, 0, 0)
 }
-input:focus ~ label,
-input:valid ~ label {
+#tripInput input:focus ~ label,
+#tripInput input:valid ~ label {
 	color: #66fcf1;
 	transform: translateY(0);
 	top: 0;
@@ -156,36 +203,29 @@ input:valid ~ label {
 	font-weight: 900;
 	line-height: 0;
 }
+.backBtn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: none;
+    color:#c5c6c7;
+}
 .clearfix:after {
     content:'';
     clear:both;
     display:block;
     height:0;
 }
-.colors {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-.colors span {
-    height:2em;
-    float:left;
-    width:20%;
-}
+
 .colors span:nth-of-type(1) {
     background:#0b0c10;
-}
-.colors span:nth-of-type(2) {
+
     background:#1f2833;
-}
-.colors span:nth-of-type(3) {
+
     background:#c5c6c7;
-}
-.colors span:nth-of-type(4) {
+
     background:#66fcf1;
-}
-.colors span:nth-of-type(5) {
+
     background:#45a29e;
 }
 .lvl1 {
