@@ -84,7 +84,7 @@ function populateUpcomingTripsDisplay (){
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))
     }
 }
-function getLataLong() {
+function getLataLong(event) {
     tripLocationValue = tripLocation.val();
 
     var queryURL = `https://api.opentripmap.com/0.1/en/places/geoname?name=${tripLocationValue}&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22`;
@@ -93,9 +93,27 @@ function getLataLong() {
         method: "GET"
     }).then(function (response) {
         // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
-        lata = response.lat;
-        long = response.lon;
-        console.log('working location');
+        getTripID(event);
+        getDatesArray(event);
+        var tripsArr = [];
+        if (localStorage.trips) {
+            tripsArr = JSON.parse(localStorage.trips).data;
+        }
+        var trip = {
+                    tripID : tID,
+                    tripDates : tDates,
+                    tripName : tripLocationValue,
+                    lat : response.lat,
+                    lon : response.lon
+                    };
+        console.log(trip);
+        tripsArr.push(trip);
+        var data  = {
+            data: tripsArr
+        };
+        localStorage.setItem("trips", JSON.stringify(data));
+        $('body').toggleClass('newTripModal');
+        populateUpcomingTripsDisplay();
     });
 }
     
@@ -113,28 +131,7 @@ closeBtn.on('click', event=>{
 })
 $("#tripBtn").on("click", function(event) {
     event.preventDefault();
-    getLataLong();
-    getTripID(event);
-    getDatesArray(event);
-    var tripsArr = [];
-    if (localStorage.trips) {
-        tripsArr = JSON.parse(localStorage.trips).data;
-    }
-    var trip = {
-                tripID : tID,
-                tripDates : tDates,
-                tripName : tripLocationValue,
-                lat : lata,
-                lon : long
-                };
-    console.log(trip);
-    tripsArr.push(trip);
-    var data  = {
-        data: tripsArr
-    };
-    localStorage.setItem("trips", JSON.stringify(data));
-    $('body').toggleClass('newTripModal');
-    populateUpcomingTripsDisplay();
+    getLataLong(event);
 })
 $(upcomingTripsDisplay).on('click', 'p', event=>{
     var tripListArray = JSON.parse(localStorage.trips).data;
