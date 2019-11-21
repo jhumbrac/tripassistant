@@ -72,11 +72,14 @@ function getDatesArray(event){
     tDates = [];
     var dates = getDates(new Date(startYear,startMonth,startDay), new Date(endYear,endMonth,endDay));                                                                                                           
     dates.forEach(function(date) {
+        var dateStr = date.toString().split(' ').join('').substring(0,12);
+        var str = tripLocationValue + dateStr;
+        var result = str.split(' ').join('');
     //Add individual dates to dates array
     tDates.push(
         {
             //JSON.parse(localStorage.trips).data[tripId].tripName
-            tripDatesId: tripLocationValue + date,
+            tripDatesId: result,
             name: date,
             activities: []
         });
@@ -115,8 +118,8 @@ function createTripPage(tripId) {
     tripPage.append($('<h2>').text(trips.data[tripId].tripName));
     
     datesActivities = trips.data[tripId].tripDates;
-    datesActivities.forEach(item=>{
-        var activitiesDiv = $('<div>').attr('id', `${item.tripDatesId}`);
+    datesActivities.forEach(function(item, index){
+        var activitiesDiv = $('<div>').attr('data-value', `${item.tripDatesId}`).attr('data-index', index);
         var activitiesPerDay = $('<ul>');
         // item.activities.push({'bars':"red door"});
         tripPage.append(activitiesDiv);
@@ -126,7 +129,7 @@ function createTripPage(tripId) {
             activitiesPerDay.append($('<li>').text(activitiyItem));
         });
         activitiesPerDay.append('<li>').text('No Activities Scheduled');
-        activitiesDiv.append(searchActivitiesBtn.clone());
+        activitiesDiv.append(searchActivitiesBtn.clone().attr('data-value', `${item.tripDatesId}`).attr('data-index', index));
     })
     
     localStorage.setItem('trips', JSON.stringify(trips));
@@ -177,7 +180,59 @@ function getLataLong(event) {
         populateUpcomingTripsDisplay();
     });
 }
+
+var checkListItems = ["tourist_facilities", "cafes", "bars", "adult", "shops", "natural", "historic", "religion", "architecture", "cultural"];
+    var selectedItems = [];
+    var activitiesCheckBoxForm = $('<form>').attr('id', 'activitiesCheckBoxForm');
+    var activitiesCheckBoxSearch = $('<button>').attr('class', 'activitiesCheckBoxSearch').text('Search');
+
+    function createAForm(targetDataValue) {
+        $('body').attr('class', 'activitiesCheckModal tripPageModal');
+        $('body').append(activitiesCheckBoxForm.attr('data-value', targetDataValue));
+        activitiesCheckBoxForm.html('');
+        //$('#form2Location').append('<form id ="formLocation" action="' + selectedItems + '">');
+        for (var k = 0; k < checkListItems.length; k++) {
+            activitiesCheckBoxForm.append(`<input id="category${k}" type="checkbox" name="${checkListItems[k]}" class="categoryChecks"><label for="category${k}">${checkListItems[k]}</label>`);
+        }
+        activitiesCheckBoxForm.append(activitiesCheckBoxSearch);
+        console.log('end of create a form');
     
+        $(document).on('click', '.activitiesCheckBoxSearch', function(event){
+            event.preventDefault();
+            $('body').attr('class', 'activitiesSearchResultsModal tripPageModal');
+            selectedItems = [];
+            $('input:checked').map(function(){
+                selectedItems.push( $(this).attr('name'));   
+            }).get();        
+            // how to assign object variable for lat and lon that exist in the appropriate field
+            // var long = -86.7844;
+            // var lata = 36.1658;
+            var lata = JSON.parse(localStorage.trips).data[1].lat;
+            var long = JSON.parse(localStorage.trips).data[1].lon;
+            var kindOf = selectedItems.toString();
+            var limitOf = "40";
+            var limitDistance = 20000;
+
+
+            var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+
+            $.ajax({
+                url: locationURL,
+                method: "GET"
+            }).then(function (locationResponse) {
+                var activitiesSearchResultsPanel = $('<div>').attr('id', 'activitiesSearchResultsPanel').attr('data-value', targetDataValue);
+                $('body').append(activitiesSearchResultsPanel);
+                console.log(locationResponse);
+                for (var i = 0; i < locationResponse.features.length; i++) {
+                    if (locationResponse.features[i].properties.name !== "") {
+                        var activitiesSearchResult = $('<p>').attr('class', 'activitiesSearchResult').attr('data-value', targetDataValue).text(locationResponse.features[i].properties.name);
+                        activitiesSearchResultsPanel.append(activitiesSearchResult);
+                        // $('.h3').append('<div class="result' + i + '"> ' + '<h3 style="display: inline;" id="c3p' + i + '">' + '<button class="' + "b" + i + '">' + locationResponse.features[i].properties.name + '</button></h3></div><br>');
+                    }
+                }
+            })
+        });
+    }
 //button functions
 $(document).on('click', '.backBtn', event=>{
     event.preventDefault();
@@ -197,14 +252,20 @@ $("#tripBtn").on("click", function(event) {
 $(upcomingTripsDisplay).on('click', 'p', function(event){
     var tripListArray = JSON.parse(localStorage.trips).data;
     var tripListId =  tripListArray.findIndex( x => x.tripID === this.id );
+    console.log('TRIP LIST ID', tripListId);
     createTripPage(tripListId);
 })
 $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
     var tripListArray = JSON.parse(localStorage.trips).data;
-    var tripListId =  tripListArray.findIndex( x => x.tripDatesId === this.id );
-    console.log(tripListId);
-    createAForm();
+    console.log(tripListArray);
+    var targetDataValue = $(this).data('value');
+    console.log('value ', targetDataValue);
+    var tripListId = tripListArray.findIndex(function(x) {
+        return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
+    }.bind(this));
+    console.log('list id: ', tripListId);
+    createAForm(targetDataValue);
 })
 $(document).on('click', '#upcomingTripsBtn', function(event) {
     event.preventDefault();
