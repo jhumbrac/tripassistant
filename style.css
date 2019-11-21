@@ -7,7 +7,7 @@ body {
     background-color:#0b0c10;
     color:#c5c6c7;
     font-family: 'Raleway', sans-serif;
-    font-size:18px;
+    font-size:16px;
     line-height:1.3;
 }
 h1,h2,h3,h4 {
@@ -71,11 +71,14 @@ button:focus, input:focus {
 #welcomePage {
 	max-width: 41em;
 	/* margin: 6em auto 0; */
-	position: absolute;
+    position: absolute;
+    display: grid;
 	top: 50%;
-	left: 50%;
+	left: 50%; 
 	transform: translate(-50%,-50%);
-	width: 100%;
+    width: 100%; 
+    justify-items: center;
+    align-items: center; 
 }
 .tripPageModal #welcomePage, .upcomingTripsModal #welcomePage {
     display: none;
@@ -95,10 +98,10 @@ button:focus, input:focus {
 	font-size: 4em;
 }
 #upcomingTripsDisplay {
-	display:none;
+    display:none; 
 }
 .upcomingTripsModal #upcomingTripsDisplay {
-	display:block;
+    display:block;
     padding: 4em 2em;
 }
 #upcomingTripsHeader {
@@ -110,7 +113,10 @@ button:focus, input:focus {
 	background: #1f2833;
 	cursor: pointer;
 	margin-top: .5em;
-	padding: .5em;
+    padding: .5em;
+    /* justify-items: center;
+    align-items: center; 
+    display: grid;*/
 }
 .activitiesSearchResult {
 	background: #0b0c10;
@@ -209,7 +215,7 @@ button:focus, input:focus {
 .backBtn {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     background: none;
     color:#c5c6c7;
 }
