@@ -50,9 +50,9 @@
         $('body').attr('class', 'activitiesSearchResultsModal tripPageModal');
         selectedItems = [];
         $('input:checked').map(function(){
-            selectedItems.push( $(this).attr('name'));      
+            selectedItems.push( $(this).attr('name'));   
         }).get();        
-
+        // how to assign object variable for lat and lon that exist in the appropriate field
         var long = -86.7844;
         var lata = 36.1658;
         var kindOf = selectedItems.toString();

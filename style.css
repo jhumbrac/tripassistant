@@ -105,12 +105,15 @@ button:focus, input:focus {
 	color: #66fcf1;
 	font-size: 4em;
 }
-#upcomingTripsDisplay p, #tripPage p {
+#upcomingTripsDisplay p, #tripPage p, .activitiesSearchResult {
 	font-size: 1.5em;
 	background: #1f2833;
 	cursor: pointer;
 	margin-top: .5em;
 	padding: .5em;
+}
+.activitiesSearchResult {
+	background: #0b0c10;
 }
 .newTripModal #welcomePage {
 	opacity: .3;

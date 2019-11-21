@@ -27,8 +27,9 @@ function getDatesArray(event){
     //Add individual dates to dates array
     tDates.push(
         {
-            id: date,
-            name: `${startMonth}/${startDay}`,
+            //JSON.parse(localStorage.trips).data[tripId].tripName
+            id: tripLocationValue + date,
+            name: date,
             activities: []
         });
     })
