@@ -17,7 +17,7 @@
 
 
 
-    var checkListItems = ["tourism", "cafe", "bars", "adult", "shops", "amusements", "natural", "historic", "religion", "architecture", "cultural"];
+    var checkListItems = ["tourist_facilities", "cafes", "bars", "adult", "shops", "natural", "historic", "religion", "architecture", "cultural"];
     var selectedItems = [];
     var activitiesCheckBoxForm = $('<form>').attr('id', 'activitiesCheckBoxForm');
     var activitiesCheckBoxSearch = $('<button>').attr('class', 'activitiesCheckBoxSearch').text('Search');
