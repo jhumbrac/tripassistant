@@ -45,12 +45,13 @@ $(document).ready(function () {
                     console.log(selectedItems);
                     selectedItems.push(valueInput);
                     //   console.log("you made it inside");
-                } else {
+                } 
+                // else {
                    
-                    this.remove($(this).next().html().index(), selectedItem);
-                    console.log("removed");
-                    console.log(selectedItems);
-                }
+                //    // this.remove($(this).next().html().index(), selectedItem);
+                //     console.log("removed");
+                //     console.log($(this).next().html().index());
+                // }
             }
 
         });
@@ -66,15 +67,15 @@ $(document).ready(function () {
 
     $('#populateList').click(function () {
 
-
+        // var newLocation= "enter text or a new variable here"
         // var queryURL = "https://api.opentripmap.com/0.1/en/places/geoname?name=" + newLocation + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
         // $.ajax({
         //     url: queryURL,
         //     method: "GET"
         // }).then(function (response) {
 
-        // // Printing the entire object to console   response.lon 36.16589 response.lat -86.78444
-        // console.log(response);
+        // // Printing the entire object to console   response.lon -86.78444 response.lat  36.16589
+        // console.log(response); }
 
 
         var long = -86.78444;
