@@ -76,7 +76,7 @@ function getDatesArray(event){
     tDates.push(
         {
             //JSON.parse(localStorage.trips).data[tripId].tripName
-            id: tripLocationValue + date,
+            tripDatesId: tripLocationValue + date,
             name: date,
             activities: []
         });
@@ -116,11 +116,11 @@ function createTripPage(tripId) {
     
     datesActivities = trips.data[tripId].tripDates;
     datesActivities.forEach(item=>{
-        var activitiesDiv = $('<div>').attr('id', `${trips.data[tripId].tripName}${item.id}`);
+        var activitiesDiv = $('<div>').attr('id', `${item.tripDatesId}`);
         var activitiesPerDay = $('<ul>');
         // item.activities.push({'bars':"red door"});
         tripPage.append(activitiesDiv);
-        activitiesDiv.append(`<h3>${item.id}</h3>`);
+        activitiesDiv.append(`<h3>${item.name}</h3>`);
         activitiesDiv.append(activitiesPerDay);
         item.activities.forEach(activitiyItem=>{
             activitiesPerDay.append($('<li>').text(activitiyItem));
@@ -194,13 +194,16 @@ $("#tripBtn").on("click", function(event) {
     event.preventDefault();
     getLataLong(event);
 })
-$(upcomingTripsDisplay).on('click', 'p', event=>{
+$(upcomingTripsDisplay).on('click', 'p', function(event){
     var tripListArray = JSON.parse(localStorage.trips).data;
-    var tripListId =  tripListArray.findIndex( x => x.tripID === event.target.id );
+    var tripListId =  tripListArray.findIndex( x => x.tripID === this.id );
     createTripPage(tripListId);
 })
 $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
+    var tripListArray = JSON.parse(localStorage.trips).data;
+    var tripListId =  tripListArray.findIndex( x => x.tripDatesId === this.id );
+    console.log(tripListId);
     createAForm();
 })
 $(document).on('click', '#upcomingTripsBtn', function(event) {
