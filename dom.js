@@ -17,8 +17,6 @@ $('body').append(upcomingTripsDisplay);
 
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
-var closeBtn2 = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
-var closeBtn3 = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
 var formLine = $(`<svg class="graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
 <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
 </svg>`);
@@ -201,7 +199,7 @@ function createAForm(targetDataValue) {
     $('body').attr('class', 'activitiesCheckModal tripPageModal');
     $('body').append(activitiesCheckBoxForm.attr('data-value', targetDataValue));
     activitiesCheckBoxForm.html('');
-    activitiesCheckBoxForm.append(closeBtn2);
+    activitiesCheckBoxForm.append(closeBtn.clone());
     activitiesCheckBoxForm.append( $('<h3>').text('Select from the list below') );
 
     for (var k = 0; k < checkListItems.length; k++) {
@@ -235,7 +233,7 @@ function createAForm(targetDataValue) {
             activitiesSearchResultsPanel.html('');
             activitiesSearchResultsPanel.attr('data-value', targetDataValue);
             $('body').append(activitiesSearchResultsPanel);
-            activitiesSearchResultsPanel.append(closeBtn3);
+            activitiesSearchResultsPanel.append(closeBtn.clone());
             activitiesSearchResultsPanel.append($('<span>').attr('class', 'mask'));
             activitiesSearchResultsPanel.append( $('<h2>').text('What do you want to do?') );
             var activitiesSearchInnerDiv = $('<div>');
@@ -259,15 +257,15 @@ newTripBtn.on('click', event=>{
     event.preventDefault();
     $('body').toggleClass('newTripModal');
 });
-closeBtn.on('click', function(event){
+$(tripInput).on('click','.closeBtn', function(event){
     $('body').toggleClass('newTripModal');
     clearTripForm();
 })
-closeBtn2.on('click', function(event){
+$(activitiesCheckBoxForm).on('click', '.closeBtn', function(event){
     $('body').toggleClass('activitiesCheckModal');
     // reset checkboxes?
 })
-closeBtn3.on('click', function(event){
+$(activitiesSearchResultsPanel).on('click', '.closeBtn', function(event){
     $('body').toggleClass('activitiesSearchResultsModal');
 })
 $("#tripBtn").on("click", function(event) {
@@ -285,9 +283,6 @@ $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
     var tripListArray = JSON.parse(localStorage.trips).data;
     var targetDataValue = $(this).data('value');
-    // var tripListId = tripListArray.findIndex(function(x) {
-    //     return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
-    // }.bind(this));
     tripListId = tripListArray.findIndex(function(x) {
         return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     }.bind(this));
@@ -306,6 +301,7 @@ $(document).on('click', '.activitiesSearchResult', function(event){
         } else ( console.log('didnt find it') );
 
     }.bind(this));
+    $('body').toggleClass('activitiesSearchResultsModal');
 })
 $(document).on('click', '#upcomingTripsBtn', function(event) {
     event.preventDefault();

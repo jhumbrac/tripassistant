@@ -25,7 +25,7 @@ if (tripLocation !== "") {
       console.log(response.list[i]); //returns 7 days of info
       //console.log('high: ', response.list[i].temp.max );//high temp kelvin
       //console.log('low: ', response.list[i].temp.min );//low temp kelvin
-      console.log("weather: ", response.list[i].weather[0].description;
+      console.log("weather: ", response.list[i].weather[0].description);
       var iconCode = response.list[i].weather[0].icon;
       var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
       var hiTemp = parseInt((response.list[i].temp.max - 273.15) * 1.8 + 32); //convert from Kelvin to Fahrenheit

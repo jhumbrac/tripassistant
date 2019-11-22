@@ -92,7 +92,7 @@ button:focus, input:focus {
 }
 .tripPageModal #tripPage {
     display: block;
-    padding: 4em 2em;
+    padding: 2em 2em;
 }
 #tripPage > div {
 	margin-bottom: 3em;
@@ -146,8 +146,8 @@ button:focus, input:focus {
 #activitiesSearchResultsPanel {
 	top: 4em;
 	right: 2em;
-	bottom: 4em;
-	left: 2em;
+	left: 3em;
+	height: calc(100vh - 6em);
 	transform: none;
 }
 #activitiesSearchResultsPanel div {
@@ -157,7 +157,7 @@ button:focus, input:focus {
 	right: -1.25em;
 	padding-right: 2em;
 	bottom: 2em;
-	top: 5em;
+	top: 4em;
 }
 #tripInput > div {
     position:relative;
