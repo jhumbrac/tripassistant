@@ -335,8 +335,9 @@ $(document).on('click', '.activitiesSearchResult', function(event){
             tripItem.tripDates[tripResult].activities.push(resultContent);
             localStorage.setItem('trips', JSON.stringify(trips));
             var appendLi = $(`div[data-value=${searchResultItem}]`).children('ul');
-            var notScheduledLi = $('<li class="notScheduled">');
-            appendLi.children(notScheduledLi).toggleClass('hidden');
+            var notScheduledLi = appendLi.children( $('.notScheduled') ); //$('<li class="notScheduled">');
+            console.log(notScheduledLi);
+            $(notScheduledLi).attr('class', 'notScheduled hidden') ;
             appendLi.append( $('<li>').text(resultContent) );
             //$(`div[data-value=${searchResultItem}]`).children($('ul').append($('<li>').text(resultContent)));
         } else ( console.log('didnt find it') );

@@ -264,11 +264,12 @@ button:focus, input:focus {
 	line-height: 0;
 }
 .backBtn {
-    position: absolute;
-    bottom: 1em;
-    left: 1em;
-    background: none;
-    color:#c5c6c7;
+    position: fixed;
+    bottom: 0em;
+    right: 0em;
+    background: #66fcf1;
+    color:#0b0c10;
+    z-index:10;
 }
 .mask {
     position: absolute;
