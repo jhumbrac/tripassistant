@@ -25,6 +25,12 @@ input, label, button {
     display:block;
     font: inherit;
 }
+ul {
+	
+list-style: none;
+	
+padding: 0 0 1em;
+}
 #tripInput input {
     background: transparent;
     border: none;
@@ -108,15 +114,16 @@ button:focus, input:focus {
 	color: #66fcf1;
 	font-size: 4em;
 }
-#upcomingTripsDisplay p, #tripPage p, .activitiesSearchResult {
+#upcomingTripsDisplay p, #tripPage p, .activitiesSearchResult, ul li {
 	font-size: 1.5em;
 	background: #1f2833;
 	cursor: pointer;
 	margin-top: .5em;
-    padding: .5em;
-    /* justify-items: center;
+	padding: .5em;
+	/* justify-items: center;
     align-items: center; 
     display: grid;*/
+	text-transform: capitalize;
 }
 .activitiesSearchResult {
 	background: #0b0c10;
