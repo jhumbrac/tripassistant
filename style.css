@@ -111,6 +111,7 @@ button:focus, input:focus {
 #upcomingTripsHeader {
 	color: #66fcf1;
 	font-size: 4em;
+	line-height: 1.1;
 }
 #upcomingTripsDisplay p, #tripPage p, .activitiesSearchResult, ul li {
 	font-size: 1.5em;
@@ -176,10 +177,8 @@ button:focus, input:focus {
     font-size: 1em;
 }
 .activitiesCheckModal,.activitiesSearchResultsModal{
-	
-overflow: hidden;
+	overflow: hidden;
 }
-
 .activitiesCheckModal #tripPage, .activitiesSearchResultsModal #tripPage {
 	opacity:.3;
 }
@@ -238,6 +237,7 @@ overflow: hidden;
 .closeBtn {
 	background: #66fcf1;
 	border-radius:50%;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	cursor:pointer;
 	position:absolute;
 	top: -1em;
@@ -304,4 +304,34 @@ overflow: hidden;
 }
 .lvl5 {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+@media only screen and (max-width: 760px ){
+    body { font-size:16px; }
+}
+@media only screen and (max-width: 670px ) {
+    h1 { font-size:14vw; }
+    #welcomePage p {
+    	text-align:left;
+    	padding: 0 1em;
+    }
+}
+@media only screen and (max-width: 570px ) {
+	#tripInput, #activitiesCheckBoxForm, #activitiesSearchResultsPanel{
+		font-size:1.5em;
+	}
+	#activitiesCheckBoxForm label {
+		padding: 1.5em;
+	}
+	#activitiesCheckBoxForm input {
+		
+margin: 1.5em 1em 0;
+	}
+	
+}
+@media only screen and (max-width: 360px ) {
+    #newTripBtn, #upcomingTripsBtn {
+    	width: 96%;
+    	margin: 2em 2%;
+    	padding: .75em;
+    }
 }

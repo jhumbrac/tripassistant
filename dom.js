@@ -298,6 +298,10 @@ $(document).on('click', '.activitiesSearchResult', function(event){
         if (tripResult >= 0 ) {
             tripItem.tripDates[tripResult].activities.push(resultContent);
             localStorage.setItem('trips', JSON.stringify(trips));
+            var appendLi = $(`div[data-value=${searchResultItem}]`).children('ul');
+            appendLi.html('');
+            appendLi.append( $('<li>').text(resultContent) );
+            //$(`div[data-value=${searchResultItem}]`).children($('ul').append($('<li>').text(resultContent)));
         } else ( console.log('didnt find it') );
 
     }.bind(this));
