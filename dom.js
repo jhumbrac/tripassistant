@@ -213,8 +213,8 @@ function createAForm(targetDataValue) {
         // how to assign object variable for lat and lon that exist in the appropriate field
         // var long = -86.7844;
         // var lata = 36.1658;
-        var lata = JSON.parse(localStorage.trips).data[1].lat;
-        var long = JSON.parse(localStorage.trips).data[1].lon;
+        var lata = JSON.parse(localStorage.trips).data[tripListId].lat;
+        var long = JSON.parse(localStorage.trips).data[tripListId].lon;
         var kindOf = selectedItems.toString();
         var limitOf = "40";
         var limitDistance = 20000;
@@ -261,16 +261,18 @@ $(upcomingTripsDisplay).on('click', 'p', function(event){
     var tripListId =  tripListArray.findIndex( x => x.tripID === this.id );
     createTripPage(tripListId);
 })
+
+var tripListId;
 $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
     var tripListArray = JSON.parse(localStorage.trips).data;
     console.log(tripListArray);
     var targetDataValue = $(this).data('value');
     console.log('value ', targetDataValue);
-    var tripListId = tripListArray.findIndex(function(x) {
+    tripListId = tripListArray.findIndex(function(x) {
         return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     }.bind(this));
-    console.log('list id: ', tripListId);
+    console.log('list id: ', tripListId + "here");
     createAForm(targetDataValue);
 })
 $(document).on('click', '#upcomingTripsBtn', function(event) {
