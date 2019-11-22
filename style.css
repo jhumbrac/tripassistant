@@ -73,12 +73,14 @@ button:focus, input:focus {
 	/* margin: 6em auto 0; */
     position: absolute;
     display: grid;
+    grid-template-rows: 2fr;
+    grid-column: 100%;
 	top: 50%;
 	left: 50%; 
 	transform: translate(-50%,-50%);
     width: 100%; 
     justify-items: center;
-    align-items: center; 
+    align-items: center;  
 }
 .tripPageModal #welcomePage, .upcomingTripsModal #welcomePage {
     display: none;
@@ -114,6 +116,9 @@ button:focus, input:focus {
 	cursor: pointer;
 	margin-top: .5em;
     padding: .5em;
+    display: grid;
+    grid-column: inherit 85%;
+    grid-template-rows: 1fr;
     /* justify-items: center;
     align-items: center; 
     display: grid;*/
@@ -251,4 +256,12 @@ button:focus, input:focus {
 }
 .lvl5 {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+@media(max-width:700px){
+    body{
+        display: grid;
+        grid-template-columns: 100%;
+        
+    }
 }
