@@ -129,6 +129,9 @@ button:focus, input:focus {
 	color: #0b0c10;
 	background:#c5c6c7;
 }
+.hidden {
+	display:none;
+}
 .activitiesSearchResult {
 	background: #0b0c10;
 }

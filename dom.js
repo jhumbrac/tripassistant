@@ -124,7 +124,6 @@ function createTripPage(tripId) {
     datesActivities.forEach(function(item, index){
         var activitiesDiv = $('<div>').attr('data-value', `${item.tripDatesId}`).attr('data-index', index);
         var activitiesPerDay = $('<ul>');
-        // item.activities.push({'bars':"red door"});
         tripPage.append(activitiesDiv);
         activitiesDiv.append(`<h3>${item.name}</h3>`);
         activitiesDiv.append(activitiesPerDay);
@@ -336,7 +335,8 @@ $(document).on('click', '.activitiesSearchResult', function(event){
             tripItem.tripDates[tripResult].activities.push(resultContent);
             localStorage.setItem('trips', JSON.stringify(trips));
             var appendLi = $(`div[data-value=${searchResultItem}]`).children('ul');
-            appendLi.html('');
+            var notScheduledLi = $('<li class="notScheduled">');
+            appendLi.children(notScheduledLi).toggleClass('hidden');
             appendLi.append( $('<li>').text(resultContent) );
             //$(`div[data-value=${searchResultItem}]`).children($('ul').append($('<li>').text(resultContent)));
         } else ( console.log('didnt find it') );
