@@ -214,8 +214,8 @@ function createAForm(targetDataValue) {
         // how to assign object variable for lat and lon that exist in the appropriate field
         // var long = -86.7844;
         // var lata = 36.1658;
-        var lata = JSON.parse(localStorage.trips).data[1].lat;
-        var long = JSON.parse(localStorage.trips).data[1].lon;
+        var lata = JSON.parse(localStorage.trips).data[tripListId].lat;
+        var long = JSON.parse(localStorage.trips).data[tripListId].lon;
         var kindOf = selectedItems.toString();
         var limitOf = "40";
         var limitDistance = 20000;
@@ -263,24 +263,33 @@ $(upcomingTripsDisplay).on('click', 'p', function(event){
     var tripListId =  tripListArray.findIndex( x => x.tripID === this.id );
     createTripPage(tripListId);
 })
-$(document).on('click', '.searchActivitiesBtn', function(event) { // need to rename variables here
+
+var tripListId;
+$(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
     var tripListArray = JSON.parse(localStorage.trips).data;
     var targetDataValue = $(this).data('value');
-    var tripListId = tripListArray.findIndex(function(x) {
+    // var tripListId = tripListArray.findIndex(function(x) {
+    //     return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
+    // }.bind(this));
+    console.log('value ', targetDataValue);
+    tripListId = tripListArray.findIndex(function(x) {
         return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     }.bind(this));
+    console.log('list id: ', tripListId + "here");
     createAForm(targetDataValue);
 })
 $(document).on('click', '.activitiesSearchResult', function(event){
+    var trips = JSON.parse(localStorage.trips);
     var resultContent = $(this).text();
-    var tripListArray = JSON.parse(localStorage.trips).data;
+    var tripListArray = trips.data;
     var searchResultItem = $(this).data('value');
     tripListArray.forEach( function(tripItem){
         let tripResult = tripItem.tripDates.findIndex(x => x.tripDatesId === searchResultItem);
         if (tripResult >= 0 ) {
+            console.log(tripItem);
             tripItem.tripDates[tripResult].activities.push(resultContent);
-            //localStorage.setItem('trips', JSON.stringify(?));
+            localStorage.setItem('trips', JSON.stringify(trips));
         } else ( 'didnt find it' );
 
     }.bind(this));
