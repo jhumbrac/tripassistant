@@ -17,6 +17,14 @@ Link to app: [Trip Assistant](https://jhumbrac.github.io/tripassistant/)
 
 ## Planned Features
 
+- Multi-user functionality
+- Feature to remove dates from trip
+- Feature to remove entire trips from database
+- Display additional details for places
+- Advanced search options:
+  - Radius
+  - Number of results
+
 ---
 
 ## Authors
