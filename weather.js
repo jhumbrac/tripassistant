@@ -34,7 +34,7 @@ if (tripLocation !== "") {
       console.log("lo", loTemp);
       var temp = $("<div>");
       $("#weatherBox").append(temp);
-      $("#weatherBox").append("<div id=weatherPlace>" + "<img src = " + iconUrl + "><h5> min:" + loTemp + "</h5>"  + "<h5> max:" + hiTemp + "</h5> </div>");
+      $("#weatherBox").append("<div id=weatherPlace>" + "<img src = " + iconUrl + "><h4> min:" + loTemp + "</h4>"  + "<h4> max:" + hiTemp + "</h4> </div>");
      
     }
   });

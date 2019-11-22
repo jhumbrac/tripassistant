@@ -264,11 +264,25 @@ button:focus, input:focus {
 #weatherBox {
     height: 50%;
     width: 50%;
-    background-color: #ff0000;
-    display:block;
+    background-color: #292929;
+    float: right;
+    display:flex;
+    padding: 10px;
+    margin: 20px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #66fcf1;
+    justify-content: space-between;
 
-    
+
+
 };
 #weatherPlace {
-    float: right;
+   
+    justify-content: space-between;
+
+}
+
+#weatherBoxMain {
+
 }
