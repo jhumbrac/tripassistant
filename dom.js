@@ -339,7 +339,7 @@ $(document).on('click', '.activitiesSearchResult', function(event){
             $(notScheduledLi).attr('class', 'notScheduled hidden') ;
             appendLi.append( $('<li>').text(resultContent) );
             //$(`div[data-value=${searchResultItem}]`).children($('ul').append($('<li>').text(resultContent)));
-        } else (  );
+        } else ( console.log('didnt find it') );
 
     }.bind(this));
     $('body').toggleClass('activitiesSearchResultsModal');
