@@ -258,8 +258,8 @@ button:focus, input:focus {
 }
 .backBtn {
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 1em;
+    left: 1em;
     background: none;
     color:#c5c6c7;
 }
@@ -271,6 +271,20 @@ button:focus, input:focus {
     top: 0;
     bottom: 0;
     z-index: 1;
+}
+.weatherPlace {
+    display: inline-block;
+    margin-left: 2em;
+    width: 7em;
+}
+.weatherPlace img {
+    float: left;
+}
+.weatherBox {
+    float: right;
+    position: absolute;
+    top: 2em;
+    right: 2em;
 }
 .clearfix:after {
     content:'';
@@ -323,10 +337,8 @@ button:focus, input:focus {
 		padding: 1.5em;
 	}
 	#activitiesCheckBoxForm input {
-		
-margin: 1.5em 1em 0;
+		margin: 1.5em 1em 0;
 	}
-	
 }
 @media only screen and (max-width: 360px ) {
     #newTripBtn, #upcomingTripsBtn {
