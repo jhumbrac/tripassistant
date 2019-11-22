@@ -257,7 +257,7 @@ function getWeather(city) {
     var APIKey = "f32ce10fcdmshf3587c309489b02p1c2f4ejsn5886632c5b19"; 
     // Here we are building the URL we need to query the database.This originally had the wrong end tag. Needed to add "?q=" ***research***
     var queryURL =
-        "https:community-open-weather-map.p.rapidapi.com/forecast/daily?q=" + tripLocation;
+        "https://community-open-weather-map.p.rapidapi.com/forecast/daily?q=" + tripLocation;
 
     // We then created an AJAX call
     $.ajax({
