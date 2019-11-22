@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 
 
-    var listItems = ["tourism", "cafe", "bars", "adult", "shops", "amusements", "natural", "historic", "religion", "architecture", "cultural"];
+    var listItems = ["tourist_facilities", "cafes", "bars", "adult", "shops", "amusements", "natural", "historic", "religion", "architecture", "cultural"];
 
     var selectedItems = [];
     var valueInput;
@@ -55,12 +55,12 @@ $(document).ready(function () {
             }
 
         });
-        // $( "input" ).dblclick(function() {
-        //     if (!selectedItems.includes(valueInput)) {
-        //         $($(this).next()).append('<button class="buttonDelete"> Delete?</button>');
-        //        // selectedItems.remove($(this).html());
-        //         console.log("hello");
-        //   }});
+        $( "input" ).dblclick(function() {
+            if (!selectedItems.includes(valueInput)) {
+                $($(this).next()).append('<button class="buttonDelete"> Delete?</button>');
+               // selectedItems.remove($(this).html());
+                console.log("hello");
+          }});
 
     }
     createAForm();

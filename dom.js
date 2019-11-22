@@ -9,11 +9,12 @@ var upcomingTripsBtn = $('<button>').attr('id', 'upcomingTripsBtn').text('See up
 var upcomingTripsDisplay = $('<div>').attr('id', 'upcomingTripsDisplay');
 var upcomingTripsHeader = $('<h2>').attr('id', 'upcomingTripsHeader').text('Upcoming Trips');
 $('body').prepend(logo);
-$('body').prepend(welcomePage);
+$('body').append(welcomePage);
 welcomePage.append(welcomeText, welcomeSubText, newTripBtn, upcomingTripsBtn);
 
-$('body').prepend(upcomingTripsDisplay);
-$('body').prepend(logo);
+// $('body').prepend(logo);
+$('body').append(upcomingTripsDisplay);
+
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
 var formLine = $(`<svg class="graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -84,6 +85,7 @@ function getDatesArray(event){
             activities: []
         });
     })
+    clearTripForm();
 };
 
 //Function to create array of dates
@@ -106,12 +108,13 @@ var getDates = function(startDate, endDate) {
 function getTripID(event) {
     var startDate = $("#tripStartDate").val();
     tID = $("#tripLocation").val() + "-" + startDate;//this line creates the tripID
+    tID = tID.split(' ').join('');
 }
 
 
 function createTripPage(tripId) {
     var trips = JSON.parse(localStorage.trips);
-    $('body').prepend(tripPage);
+    $('body').append(tripPage);
     $('body').attr('class', 'tripPageModal');
     tripPage.html('');
     tripPage.append(backBtn);
@@ -128,13 +131,19 @@ function createTripPage(tripId) {
         item.activities.forEach(activitiyItem=>{
             activitiesPerDay.append($('<li>').text(activitiyItem));
         });
-        activitiesPerDay.append('<li>').text('No Activities Scheduled');
+        if (activitiesPerDay.html() === ''){
+            activitiesPerDay.append( $('<li>').attr('class', 'notScheduled').text('No Activities Scheduled') );
+        }
         activitiesDiv.append(searchActivitiesBtn.clone().attr('data-value', `${item.tripDatesId}`).attr('data-index', index));
     })
     
     localStorage.setItem('trips', JSON.stringify(trips));
 }
-
+function clearTripForm(){
+    tripLocation.val('');
+    tripStartDate.val('');
+    tripEndDate.val('');
+}
 function populateUpcomingTripsDisplay (){
     $('body').attr('class', 'upcomingTripsModal');
     $(upcomingTripsDisplay).html('');
@@ -142,14 +151,14 @@ function populateUpcomingTripsDisplay (){
     upcomingTripsDisplay.append(upcomingTripsHeader);
     if (localStorage.trips){
         JSON.parse(localStorage.trips).data.forEach(item => {
-            $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripID));
+            $(upcomingTripsDisplay).append( $('<p>').attr('id', item.tripID).text(item.tripName));
         });
     } else {
         $(upcomingTripsDisplay).append( $('<p>').text('No Upcoming Trips Planned'))
     }
 }
 function getLataLong(event) {
-    tripLocationValue = tripLocation.val();
+    tripLocationValue = tripLocation.val().toLowerCase();
 
     var queryURL = `https://api.opentripmap.com/0.1/en/places/geoname?name=${tripLocationValue}&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22`;
     $.ajax({
@@ -170,7 +179,6 @@ function getLataLong(event) {
                     lat : response.lat,
                     lon : response.lon
                     };
-        console.log(trip);
         tripsArr.push(trip);
         var data  = {
             data: tripsArr
@@ -182,57 +190,64 @@ function getLataLong(event) {
 }
 
 var checkListItems = ["tourist_facilities", "cafes", "bars", "adult", "shops", "natural", "historic", "religion", "architecture", "cultural"];
-    var selectedItems = [];
-    var activitiesCheckBoxForm = $('<form>').attr('id', 'activitiesCheckBoxForm');
-    var activitiesCheckBoxSearch = $('<button>').attr('class', 'activitiesCheckBoxSearch').text('Search');
+var selectedItems = [];
+var activitiesCheckBoxForm = $('<form>').attr('id', 'activitiesCheckBoxForm');
+var activitiesCheckBoxSearch = $('<button>').attr('class', 'activitiesCheckBoxSearch').text('Search');
+var activitiesSearchResultsPanel = $('<div>').attr('id', 'activitiesSearchResultsPanel');
 
-    function createAForm(targetDataValue) {
-        $('body').attr('class', 'activitiesCheckModal tripPageModal');
-        $('body').append(activitiesCheckBoxForm.attr('data-value', targetDataValue));
-        activitiesCheckBoxForm.html('');
-        //$('#form2Location').append('<form id ="formLocation" action="' + selectedItems + '">');
-        for (var k = 0; k < checkListItems.length; k++) {
-            activitiesCheckBoxForm.append(`<input id="category${k}" type="checkbox" name="${checkListItems[k]}" class="categoryChecks"><label for="category${k}">${checkListItems[k]}</label>`);
-        }
-        activitiesCheckBoxForm.append(activitiesCheckBoxSearch);
-        console.log('end of create a form');
-    
-        $(document).on('click', '.activitiesCheckBoxSearch', function(event){
-            event.preventDefault();
-            $('body').attr('class', 'activitiesSearchResultsModal tripPageModal');
-            selectedItems = [];
-            $('input:checked').map(function(){
-                selectedItems.push( $(this).attr('name'));   
-            }).get();        
-            // how to assign object variable for lat and lon that exist in the appropriate field
-            // var long = -86.7844;
-            // var lata = 36.1658;
-            var lata = JSON.parse(localStorage.trips).data[1].lat;
-            var long = JSON.parse(localStorage.trips).data[1].lon;
-            var kindOf = selectedItems.toString();
-            var limitOf = "40";
-            var limitDistance = 20000;
+function createAForm(targetDataValue) {
+    $('body').attr('class', 'activitiesCheckModal tripPageModal');
+    $('body').append(activitiesCheckBoxForm.attr('data-value', targetDataValue));
+    activitiesCheckBoxForm.html('');
+    activitiesCheckBoxForm.append(closeBtn.clone());
+    activitiesCheckBoxForm.append( $('<h3>').text('Select from the list below') );
 
-
-            var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
-
-            $.ajax({
-                url: locationURL,
-                method: "GET"
-            }).then(function (locationResponse) {
-                var activitiesSearchResultsPanel = $('<div>').attr('id', 'activitiesSearchResultsPanel').attr('data-value', targetDataValue);
-                $('body').append(activitiesSearchResultsPanel);
-                console.log(locationResponse);
-                for (var i = 0; i < locationResponse.features.length; i++) {
-                    if (locationResponse.features[i].properties.name !== "") {
-                        var activitiesSearchResult = $('<p>').attr('class', 'activitiesSearchResult').attr('data-value', targetDataValue).text(locationResponse.features[i].properties.name);
-                        activitiesSearchResultsPanel.append(activitiesSearchResult);
-                        // $('.h3').append('<div class="result' + i + '"> ' + '<h3 style="display: inline;" id="c3p' + i + '">' + '<button class="' + "b" + i + '">' + locationResponse.features[i].properties.name + '</button></h3></div><br>');
-                    }
-                }
-            })
-        });
+    for (var k = 0; k < checkListItems.length; k++) {
+        activitiesCheckBoxForm.append(`<div><input id="category${k}" type="checkbox" name="${checkListItems[k]}" class="categoryChecks"><label for="category${k}">${checkListItems[k]}</label></div>`);
     }
+    activitiesCheckBoxForm.append(activitiesCheckBoxSearch);
+
+    $(document).on('click', '.activitiesCheckBoxSearch', function(event){
+        event.preventDefault();
+        $('body').attr('class', 'activitiesSearchResultsModal tripPageModal');
+        selectedItems = [];
+        $('input:checked').map(function(){
+            selectedItems.push( $(this).attr('name'));   
+        }).get();        
+        // how to assign object variable for lat and lon that exist in the appropriate field
+        // var long = -86.7844;
+        // var lata = 36.1658;
+        var lata = JSON.parse(localStorage.trips).data[tripListId].lat;
+        var long = JSON.parse(localStorage.trips).data[tripListId].lon;
+        var kindOf = selectedItems.toString();
+        var limitOf = "40";
+        var limitDistance = 20000;
+
+
+        var locationURL = "https://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=" + limitDistance + "&lon=" + long + "&lat=" + lata + "&kinds=" + kindOf + "&limit=" + limitOf + "&apikey=5ae2e3f221c38a28845f05b6f0fdbe212d0570adee77bc404c19df22";
+
+        $.ajax({
+            url: locationURL,
+            method: "GET"
+        }).then(function (locationResponse) {
+            activitiesSearchResultsPanel.html('');
+            activitiesSearchResultsPanel.attr('data-value', targetDataValue);
+            $('body').append(activitiesSearchResultsPanel);
+            activitiesSearchResultsPanel.append(closeBtn.clone());
+            activitiesSearchResultsPanel.append($('<span>').attr('class', 'mask'));
+            activitiesSearchResultsPanel.append( $('<h2>').text('What do you want to do?') );
+            var activitiesSearchInnerDiv = $('<div>');
+            activitiesSearchResultsPanel.append(activitiesSearchInnerDiv);
+            for (var i = 0; i < locationResponse.features.length; i++) {
+                if (locationResponse.features[i].properties.name !== "") {
+                    var activitiesSearchResult = $('<p>').attr('class', 'activitiesSearchResult').attr('data-value', targetDataValue).text(locationResponse.features[i].properties.name);
+                    activitiesSearchInnerDiv.append(activitiesSearchResult);
+                    // $('.h3').append('<div class="result' + i + '"> ' + '<h3 style="display: inline;" id="c3p' + i + '">' + '<button class="' + "b" + i + '">' + locationResponse.features[i].properties.name + '</button></h3></div><br>');
+                }
+            }
+        })
+    });
+}
 //button functions
 $(document).on('click', '.backBtn', event=>{
     event.preventDefault();
@@ -242,8 +257,16 @@ newTripBtn.on('click', event=>{
     event.preventDefault();
     $('body').toggleClass('newTripModal');
 });
-closeBtn.on('click', event=>{
+$(tripInput).on('click','.closeBtn', function(event){
     $('body').toggleClass('newTripModal');
+    clearTripForm();
+})
+$(activitiesCheckBoxForm).on('click', '.closeBtn', function(event){
+    $('body').toggleClass('activitiesCheckModal');
+    // reset checkboxes?
+})
+$(activitiesSearchResultsPanel).on('click', '.closeBtn', function(event){
+    $('body').toggleClass('activitiesSearchResultsModal');
 })
 $("#tripBtn").on("click", function(event) {
     event.preventDefault();
@@ -252,20 +275,33 @@ $("#tripBtn").on("click", function(event) {
 $(upcomingTripsDisplay).on('click', 'p', function(event){
     var tripListArray = JSON.parse(localStorage.trips).data;
     var tripListId =  tripListArray.findIndex( x => x.tripID === this.id );
-    console.log('TRIP LIST ID', tripListId);
     createTripPage(tripListId);
 })
+
+var tripListId;
 $(document).on('click', '.searchActivitiesBtn', function(event) {
     event.preventDefault();
     var tripListArray = JSON.parse(localStorage.trips).data;
-    console.log(tripListArray);
     var targetDataValue = $(this).data('value');
-    console.log('value ', targetDataValue);
-    var tripListId = tripListArray.findIndex(function(x) {
+    tripListId = tripListArray.findIndex(function(x) {
         return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     }.bind(this));
-    console.log('list id: ', tripListId);
     createAForm(targetDataValue);
+})
+$(document).on('click', '.activitiesSearchResult', function(event){
+    var trips = JSON.parse(localStorage.trips);
+    var resultContent = $(this).text();
+    var tripListArray = trips.data;
+    var searchResultItem = $(this).data('value');
+    tripListArray.forEach( function(tripItem){
+        let tripResult = tripItem.tripDates.findIndex(x => x.tripDatesId === searchResultItem);
+        if (tripResult >= 0 ) {
+            tripItem.tripDates[tripResult].activities.push(resultContent);
+            localStorage.setItem('trips', JSON.stringify(trips));
+        } else ( console.log('didnt find it') );
+
+    }.bind(this));
+    $('body').toggleClass('activitiesSearchResultsModal');
 })
 $(document).on('click', '#upcomingTripsBtn', function(event) {
     event.preventDefault();
@@ -273,5 +309,46 @@ $(document).on('click', '#upcomingTripsBtn', function(event) {
 });
 
 
-
 });
+
+//this is how the app will relay the destination information to the API
+var tripLocation = "Nashville"; //changed to a variable to test and make an easier call
+
+//if the user leaves destination area blank, the app needs to alert them that a tripLocation has to be entered. This API will recognize location by name instead of requiring Lat and Lon.
+if (tripLocation !== "") {
+  //my location API link goes here.
+  var APIKey = "f32ce10fcdmshf3587c309489b02p1c2f4ejsn5886632c5b19"; 
+
+  // Here we are building the URL we need to query the database.This originally had the wrong end tag. Needed to add "?q=" ***research***
+  var queryURL =
+    "https:community-open-weather-map.p.rapidapi.com/forecast/daily?q=" + tripLocation;
+
+  // We then created an AJAX call
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+    headers: {
+      //had to add in headers to retrieve information. ***research***
+      "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+      "x-rapidapi-key": APIKey
+    }
+    //this for loop wil convert the needed information to just output the selected info needed to generate the 7 day forecast
+      }).then(function(response) {
+        for (var i = 0; i < response.list.length; i++) {
+      console.log(response.list[i]); //returns 7 days of info
+      //console.log('high: ', response.list[i].temp.max );//high temp kelvin
+      //console.log('low: ', response.list[i].temp.min );//low temp kelvin
+      console.log("weather: ", response.list[i].weather[0].description);
+      var iconCode = response.list[i].weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+      var hiTemp = parseInt((response.list[i].temp.max - 273.15) * 1.8 + 32); //convert from Kelvin to Fahrenheit
+      console.log("hi", hiTemp);
+      var loTemp = parseInt((response.list[i].temp.min - 273.15) * 1.8 + 32); //convert from Kelvin to Fahrenheit
+      console.log("lo", loTemp);
+      var temp = $("<div>");
+      $("#weatherBox").append(temp);
+      $("#weatherBox").append("<div id=weatherPlace>" + "<img src = " + iconUrl + "><h4> min:" + loTemp + "</h4>"  + "<h4> max:" + hiTemp + "</h4> </div>");
+     
+    }
+  });
+}
