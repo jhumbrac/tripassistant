@@ -336,11 +336,10 @@ $(document).on('click', '.activitiesSearchResult', function(event){
             localStorage.setItem('trips', JSON.stringify(trips));
             var appendLi = $(`div[data-value=${searchResultItem}]`).children('ul');
             var notScheduledLi = appendLi.children( $('.notScheduled') ); //$('<li class="notScheduled">');
-            console.log(notScheduledLi);
             $(notScheduledLi).attr('class', 'notScheduled hidden') ;
             appendLi.append( $('<li>').text(resultContent) );
             //$(`div[data-value=${searchResultItem}]`).children($('ul').append($('<li>').text(resultContent)));
-        } else ( console.log('didnt find it') );
+        } else (  );
 
     }.bind(this));
     $('body').toggleClass('activitiesSearchResultsModal');
