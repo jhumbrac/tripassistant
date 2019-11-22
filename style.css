@@ -5,10 +5,14 @@
 }
 body {
     background-color:#0b0c10;
+    background-image: url(trianglify-lowres.png);
+    background-size:cover;
+    background-repeat:no-repeat;
     color:#c5c6c7;
     font-family: 'Raleway', sans-serif;
     font-size: 18px;
     line-height:1.3;
+    min-height:100vh;
 }
 h1,h2,h3,h4 {
 	font-weight:900;
