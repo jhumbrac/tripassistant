@@ -17,6 +17,8 @@ $('body').append(upcomingTripsDisplay);
 
 // close button
 var closeBtn = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
+var closeBtn2 = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
+var closeBtn3 = $('<p>').attr('class', 'closeBtn').append($('<span>').text('X'));
 var formLine = $(`<svg class="graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
 <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
 </svg>`);
@@ -131,7 +133,9 @@ function createTripPage(tripId) {
         item.activities.forEach(activitiyItem=>{
             activitiesPerDay.append($('<li>').text(activitiyItem));
         });
-        activitiesPerDay.append( $('<li>').text('No Activities Scheduled') );
+        if (activitiesPerDay.html() === ''){
+            activitiesPerDay.append( $('<li>').attr('class', 'notScheduled').text('No Activities Scheduled') );
+        }
         activitiesDiv.append(searchActivitiesBtn.clone().attr('data-value', `${item.tripDatesId}`).attr('data-index', index));
     })
     
@@ -197,10 +201,11 @@ function createAForm(targetDataValue) {
     $('body').attr('class', 'activitiesCheckModal tripPageModal');
     $('body').append(activitiesCheckBoxForm.attr('data-value', targetDataValue));
     activitiesCheckBoxForm.html('');
+    activitiesCheckBoxForm.append(closeBtn2);
     activitiesCheckBoxForm.append( $('<h3>').text('Select from the list below') );
 
     for (var k = 0; k < checkListItems.length; k++) {
-        activitiesCheckBoxForm.append(`<input id="category${k}" type="checkbox" name="${checkListItems[k]}" class="categoryChecks"><label for="category${k}">${checkListItems[k]}</label>`);
+        activitiesCheckBoxForm.append(`<div><input id="category${k}" type="checkbox" name="${checkListItems[k]}" class="categoryChecks"><label for="category${k}">${checkListItems[k]}</label></div>`);
     }
     activitiesCheckBoxForm.append(activitiesCheckBoxSearch);
 
@@ -230,11 +235,15 @@ function createAForm(targetDataValue) {
             activitiesSearchResultsPanel.html('');
             activitiesSearchResultsPanel.attr('data-value', targetDataValue);
             $('body').append(activitiesSearchResultsPanel);
+            activitiesSearchResultsPanel.append(closeBtn3);
+            activitiesSearchResultsPanel.append($('<span>').attr('class', 'mask'));
             activitiesSearchResultsPanel.append( $('<h2>').text('What do you want to do?') );
+            var activitiesSearchInnerDiv = $('<div>');
+            activitiesSearchResultsPanel.append(activitiesSearchInnerDiv);
             for (var i = 0; i < locationResponse.features.length; i++) {
                 if (locationResponse.features[i].properties.name !== "") {
                     var activitiesSearchResult = $('<p>').attr('class', 'activitiesSearchResult').attr('data-value', targetDataValue).text(locationResponse.features[i].properties.name);
-                    activitiesSearchResultsPanel.append(activitiesSearchResult);
+                    activitiesSearchInnerDiv.append(activitiesSearchResult);
                     // $('.h3').append('<div class="result' + i + '"> ' + '<h3 style="display: inline;" id="c3p' + i + '">' + '<button class="' + "b" + i + '">' + locationResponse.features[i].properties.name + '</button></h3></div><br>');
                 }
             }
@@ -250,9 +259,16 @@ newTripBtn.on('click', event=>{
     event.preventDefault();
     $('body').toggleClass('newTripModal');
 });
-closeBtn.on('click', event=>{
+closeBtn.on('click', function(event){
     $('body').toggleClass('newTripModal');
     clearTripForm();
+})
+closeBtn2.on('click', function(event){
+    $('body').toggleClass('activitiesCheckModal');
+    // reset checkboxes?
+})
+closeBtn3.on('click', function(event){
+    $('body').toggleClass('activitiesSearchResultsModal');
 })
 $("#tripBtn").on("click", function(event) {
     event.preventDefault();
@@ -272,11 +288,9 @@ $(document).on('click', '.searchActivitiesBtn', function(event) {
     // var tripListId = tripListArray.findIndex(function(x) {
     //     return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     // }.bind(this));
-    console.log('value ', targetDataValue);
     tripListId = tripListArray.findIndex(function(x) {
         return x.tripDates[$(this).data('index')].tripDatesId === targetDataValue;
     }.bind(this));
-    console.log('list id: ', tripListId + "here");
     createAForm(targetDataValue);
 })
 $(document).on('click', '.activitiesSearchResult', function(event){
@@ -287,10 +301,9 @@ $(document).on('click', '.activitiesSearchResult', function(event){
     tripListArray.forEach( function(tripItem){
         let tripResult = tripItem.tripDates.findIndex(x => x.tripDatesId === searchResultItem);
         if (tripResult >= 0 ) {
-            console.log(tripItem);
             tripItem.tripDates[tripResult].activities.push(resultContent);
             localStorage.setItem('trips', JSON.stringify(trips));
-        } else ( 'didnt find it' );
+        } else ( console.log('didnt find it') );
 
     }.bind(this));
 })
