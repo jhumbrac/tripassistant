@@ -1,6 +1,6 @@
 $(document).ready(function(){
 // landing page dom
-var logo = $('<img>').attr('src', 'optimisedLogo.svg').attr('class', 'logo');
+var logo = $('<img>').attr('src', 'images/optimisedLogo.svg').attr('class', 'logo');
 var welcomePage = $('<div>').attr('id', 'welcomePage');
 var welcomeText = $('<h1>').text('Plan your trip');
 var welcomeSubText = $('<p>').text('Click to start a new trip or select from one of your upcoming trips');
